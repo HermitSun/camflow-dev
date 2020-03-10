@@ -6,3 +6,12 @@ config SECURITY_PROVENANCE_QUERY
 	  This option turn on the in-kernel query framework.
 
 	  If you are unsure how to answer this question, answer Y.
+
+config SECURITY_PROVENANCE_QUERY_PROPAGATE
+	bool "CamQuery - propagate query"
+	depends on SECURITY_PROVENANCE_QUERY
+	default y
+	help
+	  Query supporting tracking propagation.
+
+	  If you are unsure how to answer this question, answer Y.

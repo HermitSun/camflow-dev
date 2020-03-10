@@ -208,7 +208,6 @@ uncrustify:
 	uncrustify -c uncrustify.cfg --replace security/provenance/hooks.c
 	uncrustify -c uncrustify.cfg --replace security/provenance/machine.c
 	uncrustify -c uncrustify.cfg --replace security/provenance/netfilter.c
-	uncrustify -c uncrustify.cfg --replace security/provenance/propagate.c
 	uncrustify -c uncrustify.cfg --replace security/provenance/relay.c
 	uncrustify -c uncrustify.cfg --replace security/provenance/type.c
 	uncrustify -c uncrustify.cfg --replace security/provenance/memcpy_ss.c
@@ -231,10 +230,12 @@ uncrustify:
 	uncrustify -c uncrustify.cfg --replace include/uapi/linux/provenance.h
 	uncrustify -c uncrustify.cfg --replace security/provenance/query/include/provenance_query.h
 	uncrustify -c uncrustify.cfg --replace security/provenance/query/register.c
+	uncrustify -c uncrustify.cfg --replace security/provenance/query/propagate/query.c
 
 uncrustify_clean:
 	rm ./security/provenance/*backup*~
-		rm ./security/provenance/query/*backup*~
+	rm ./security/provenance/query/*backup*~
+	rm ./security/provenance/query/propagate/*backup*~
 	rm ./security/provenance/include/*backup*~
 	rm ./security/provenance/query/include/*backup*~
 	rm ./include/linux/*backup*~

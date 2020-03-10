@@ -1,0 +1,8 @@
+config SECURITY_PROVENANCE_QUERY
+	bool "CamQuery - CamFlow Query Framework"
+	depends on SECURITY_PROVENANCE
+	default y
+	help
+	  This option turn on the in-kernel query framework.
+
+	  If you are unsure how to answer this question, answer Y.

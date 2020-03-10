@@ -1,3 +1,5 @@
+source "security/provenance/query/Kconfig"
+
 config SECURITY_PROVENANCE
          bool "CamFlow - Provenance"
          depends on SECURITY

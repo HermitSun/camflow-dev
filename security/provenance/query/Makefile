@@ -2,9 +2,9 @@
 # Makefile for Provenance LSM
 #
 obj-$(CONFIG_SECURITY_PROVENANCE_QUERY) := query.o
-subdir-$(CONFIG_SECURITY_PROVENANCE_QUERY_PROPAGATE)	+= propagate
+subdir-$(CONFIG_SECURITY_PROVENANCE_QUERY_TRACKING)	+= tracking
 
-obj-$(CONFIG_SECURITY_PROVENANCE_QUERY_PROPAGATE)		+= propagate/
+obj-$(CONFIG_SECURITY_PROVENANCE_QUERY_TRACKING)		+= tracking/
 
 query-y := register.o
 

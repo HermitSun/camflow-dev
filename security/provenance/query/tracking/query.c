@@ -33,11 +33,11 @@ struct provenance_query_hooks hooks = {
 };
 
 /*!
- * Register the propagate hooks.
+ * Register the tracking hooks.
  */
-int init_prov_propagate(void)
+int init_prov_tracking(void)
 {
 	register_provenance_query_hooks(&hooks);
-	pr_info("Provenance: propagate ready.\n");
+	pr_info("Provenance: tracking ready.\n");
 	return 0;
 }

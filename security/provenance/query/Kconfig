@@ -7,11 +7,11 @@ config SECURITY_PROVENANCE_QUERY
 
 	  If you are unsure how to answer this question, answer Y.
 
-config SECURITY_PROVENANCE_QUERY_PROPAGATE
-	bool "CamQuery - propagate query"
+config SECURITY_PROVENANCE_QUERY_TRACKING
+	bool "CamQuery - tracking query"
 	depends on SECURITY_PROVENANCE_QUERY
 	default y
 	help
-	  Query supporting tracking propagation.
+	  Query supporting tracking.
 
 	  If you are unsure how to answer this question, answer Y.

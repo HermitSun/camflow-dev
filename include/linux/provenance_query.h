@@ -18,10 +18,12 @@
 
  #include <uapi/linux/provenance.h>
 
- #define PROVENANCE_RAISE_WARNING       1
- #define PROVENANCE_PREVENT_FLOW        2
+#define PROVENANCE_QUERY_OK       0
+#define PROVENANCE_QUERY_WARNING  1
+#define PROVENANCE_QUERY_ERROR    2
+#define PROVENANCE_QUERY_SKIP     3
 
- #define QUERY_HOOK_INIT(HEAD, HOOK)    .HEAD = &HOOK
+#define QUERY_HOOK_INIT(HEAD, HOOK)    .HEAD = &HOOK
 
 struct provenance_query_hooks {
 	struct list_head list;

@@ -14,7 +14,7 @@
 
 #include <linux/provenance_query.h>
 
-int init_prov_propagate(void);
+int init_prov_tracking(void);
 
 static inline int call_provenance_flow(prov_entry_t *from,
 				       prov_entry_t *edge,
@@ -77,13 +77,17 @@ static inline int call_query_hooks(prov_entry_t *from,
 	int rc = 0;
 
 	rc = call_provenance_flow(from, edge, to);
-	if ((rc & PROVENANCE_RAISE_WARNING) == PROVENANCE_RAISE_WARNING)
+
+	// handle warning
+	if (rc == PROVENANCE_QUERY_WARNING)
 		pr_warn("Provenance: warning raised.\n");
-	if ((rc & PROVENANCE_PREVENT_FLOW) == PROVENANCE_PREVENT_FLOW) {
+
+	// handle error
+	if (rc == PROVENANCE_QUERY_ERROR) {
 		pr_err("Provenance: error raised.\n");
 		edge->relation_info.allowed = FLOW_DISALLOWED;
-		return -EPERM;
 	}
-	return 0;
+
+	return rc;
 }
 #endif

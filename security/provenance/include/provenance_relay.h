@@ -66,6 +66,12 @@ static __always_inline void tighten_identifier(union prov_identifier *id)
 	id->node_id.machine_id = prov_machine_id;
 }
 
+static __always_inline void __prepare_node(prov_entry_t *node)
+{
+	BUG_ON(prov_type_is_relation(node_type(node)));
+
+	tighten_identifier(&get_prov_identifier(node));
+}
 /*!
  * @brief Write provenance node to relay buffer.
  *
@@ -86,7 +92,6 @@ static __always_inline void __write_node(prov_entry_t *node)
 
 	if (provenance_is_recorded(node) && !prov_policy.should_duplicate)
 		return;
-	tighten_identifier(&get_prov_identifier(node));
 	set_recorded(node);
 	if (prov_type_is_long(node_type(node)))
 		long_prov_write(node, sizeof(union long_prov_elt));
@@ -156,11 +161,21 @@ static __always_inline int __write_relation(const uint64_t type,
 	if (!should_record_relation(type, f, t))
 		return 0;
 
-	// Record the two end nodes
+	// Prepare elements before query
+	__prepare_node(f);
+	__prepare_node(t);
+	__prepare_relation(type, &relation, f, t, file, flags);
+
+	// handle query
+	rc = call_query_hooks(f, t, (prov_entry_t *)&relation); // Call query hooks for propagate tracking.
+	if (rc == PROVENANCE_QUERY_SKIP)
+		return 0;
+	if (rc == PROVENANCE_QUERY_ERROR)
+		return -EPERM;
+
+	// starting to record
 	__write_node(f);
 	__write_node(t);
-	__prepare_relation(type, &relation, f, t, file, flags);
-	rc = call_query_hooks(f, t, (prov_entry_t *)&relation); // Call query hooks for propagate tracking.
 	prov_write(&relation, sizeof(union prov_elt));          // Finally record the relation (i.e., edge) to relay buffer.
 	return rc;
 }

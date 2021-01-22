@@ -17,6 +17,7 @@
 #include <linux/debugfs.h>
 #include <linux/async.h>
 #include <linux/delay.h>
+#include <linux/ktime.h>
 
 #include "provenance.h"
 #include "provenance_relay.h"
@@ -351,7 +352,7 @@ void prov_write(union prov_elt *msg, size_t size)
 
 	BUG_ON(prov_type_is_long(prov_type(msg)));
 
-	prov_jiffies(msg) = get_jiffies_64();
+	prov_jiffies(msg) = ktime_get_real_ns();
 	if (unlikely(!relay_ready))
 		insert_boot_buffer(msg);
 	else {
@@ -393,7 +394,7 @@ void long_prov_write(union long_prov_elt *msg, size_t size)
 
 	BUG_ON(!prov_type_is_long(prov_type(msg)));
 
-	prov_jiffies(msg) = get_jiffies_64();
+	prov_jiffies(msg) = ktime_get_real_ns();
 	if (unlikely(!relay_ready))
 		insert_long_boot_buffer(msg);
 	else {
